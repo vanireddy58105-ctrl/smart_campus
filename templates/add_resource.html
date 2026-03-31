@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+body{
+    background:
+    linear-gradient(rgba(20,20,40,0.78), rgba(20,20,40,0.78)),
+    url("{{ url_for('static', filename='login.jpg') }}");
+    background-size:cover;
+    background-position:center;
+    min-height:100vh;
+}
+
+.card{
+    max-width:600px;
+    margin:auto;
+    background:rgba(255,255,255,0.10);
+    backdrop-filter:blur(18px);
+    border-radius:30px;
+    padding:40px;
+    color:white;
+    box-shadow:0 20px 40px rgba(0,0,0,0.30);
+}
+
+.card h1{
+    text-align:center;
+    margin-bottom:10px;
+    font-size:34px;
+}
+
+.card p{
+    text-align:center;
+    color:#ddd;
+    margin-bottom:25px;
+}
+
+label{
+    display:block;
+    margin-top:16px;
+    margin-bottom:8px;
+    font-weight:600;
+}
+
+input, select{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:14px;
+    background:rgba(255,255,255,0.92);
+    font-size:15px;
+    outline:none;
+}
+
+button{
+    width:100%;
+    margin-top:28px;
+    padding:15px;
+    border:none;
+    border-radius:16px;
+    background:linear-gradient(135deg,#7a5cff,#4ab8ff);
+    color:white;
+    font-size:17px;
+    font-weight:600;
+    cursor:pointer;
+}
+</style>
+
+<div class="card">
+
+    <h1>➕ Add Resource</h1>
+    <p>Create a new campus resource for students and faculty.</p>
+
+    <form method="POST">
+
+        <label>Resource Name</label>
+        <input type="text" name="name" placeholder="Example: Lab 101" required>
+
+        <label>Resource Type</label>
+        <select name="type" required>
+            <option value="">Select Type</option>
+            <option value="Classroom">Classroom</option>
+            <option value="Laboratory">Laboratory</option>
+            <option value="Library">Library</option>
+            <option value="Auditorium">Auditorium</option>
+            <option value="Sports">Sports Facility</option>
+        </select>
+
+        <label>Capacity</label>
+        <input type="number" name="capacity" placeholder="Enter maximum members" required>
+
+        <label>Location</label>
+        <input type="text" name="location" placeholder="Example: Block A - Floor 2" required>
+
+        <button type="submit">Add Resource</button>
+
+    </form>
+
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Campus Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        body{
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:
+            linear-gradient(rgba(20,20,40,0.60), rgba(20,20,40,0.60)),
+            url("{{ url_for('static', filename='login.jpg') }}");
+            background-size:cover;
+            background-position:center;
+            overflow:hidden;
+        }
+
+        .container{
+            width:950px;
+            max-width:95%;
+            height:560px;
+            display:flex;
+            border-radius:30px;
+            overflow:hidden;
+            background:rgba(255,255,255,0.08);
+            backdrop-filter:blur(15px);
+            box-shadow:0 20px 45px rgba(0,0,0,0.35);
+        }
+
+        .left{
+            flex:1;
+            padding:60px 45px;
+            background:linear-gradient(135deg,#7a5cff,#4ab8ff);
+            color:white;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+        }
+
+        .left h1{
+            font-size:58px;
+            line-height:1.1;
+            margin-bottom:30px;
+            font-weight:700;
+        }
+
+        .left p{
+            font-size:17px;
+            line-height:1.8;
+            color:#f2f2f2;
+            margin-bottom:30px;
+        }
+
+        .feature{
+            display:flex;
+            align-items:center;
+            margin-bottom:18px;
+            font-size:15px;
+        }
+
+        .icon{
+            width:36px;
+            height:36px;
+            border-radius:50%;
+            background:rgba(255,255,255,0.20);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            margin-right:15px;
+            font-size:18px;
+        }
+
+        .right{
+            width:430px;
+            background:white;
+            padding:55px 45px;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+        }
+
+        .logo{
+            text-align:center;
+            font-size:34px;
+            margin-bottom:10px;
+        }
+
+        .right h2{
+            text-align:center;
+            font-size:34px;
+            color:#2d2d52;
+            margin-bottom:10px;
+        }
+
+        .subtitle{
+            text-align:center;
+            color:#777;
+            margin-bottom:30px;
+            font-size:16px;
+        }
+
+        .flash{
+            background:#ffe4e4;
+            color:#c0392b;
+            padding:12px;
+            border-radius:12px;
+            text-align:center;
+            margin-bottom:18px;
+            font-weight:600;
+        }
+
+        label{
+            display:block;
+            margin-bottom:8px;
+            color:#444;
+            font-size:15px;
+            font-weight:600;
+        }
+
+        input{
+            width:100%;
+            padding:15px 18px;
+            border:none;
+            border-radius:14px;
+            background:#f3f5fb;
+            margin-bottom:22px;
+            font-size:15px;
+            outline:none;
+            transition:0.3s;
+        }
+
+        input:focus{
+            background:white;
+            box-shadow:0 0 0 3px rgba(122,92,255,0.20);
+        }
+
+        button{
+            width:100%;
+            padding:15px;
+            border:none;
+            border-radius:14px;
+            background:linear-gradient(135deg,#7a5cff,#4ab8ff);
+            color:white;
+            font-size:18px;
+            font-weight:600;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        button:hover{
+            transform:translateY(-2px);
+            box-shadow:0 12px 25px rgba(122,92,255,0.35);
+        }
+
+        .bottom{
+            text-align:center;
+            margin-top:25px;
+            color:#666;
+            font-size:15px;
+        }
+
+        .bottom a,
+        .admin-link{
+            color:#7a5cff;
+            text-decoration:none;
+            font-weight:600;
+        }
+
+        .admin-link{
+            display:block;
+            margin-top:15px;
+            text-align:center;
+        }
+
+        @media(max-width:850px){
+            .container{
+                flex-direction:column;
+                height:auto;
+                margin:20px;
+            }
+
+            .left{
+                padding:40px 30px;
+            }
+
+            .left h1{
+                font-size:40px;
+            }
+
+            .right{
+                width:100%;
+                padding:40px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="left">
+            <h1>Smart Campus Resource Booking</h1>
+
+            <p>
+                Manage classrooms, laboratories, auditoriums, library spaces and sports facilities with one intelligent platform.
+            </p>
+
+            <div class="feature">
+                <div class="icon">✓</div>
+                <span>Real-time slot availability</span>
+            </div>
+
+            <div class="feature">
+                <div class="icon">✓</div>
+                <span>Conflict-free booking system</span>
+            </div>
+
+            <div class="feature">
+                <div class="icon">✓</div>
+                <span>AI-based recommendations</span>
+            </div>
+        </div>
+
+        <div class="right">
+
+            <div class="logo">🎓</div>
+            <h2>Welcome Back</h2>
+            <div class="subtitle">Login to continue to Smart Campus</div>
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for msg in messages %}
+                    <div class="flash">{{ msg }}</div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <form method="POST">
+
+                <label>Email Address</label>
+                <input type="email" name="email" placeholder="Enter your email" required>
+
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Enter your password" required>
+
+                <button type="submit">Login</button>
+
+            </form>
+
+            <div class="bottom">
+                Don't have an account?
+                <a href="/register">Register</a>
+            </div>
+
+            <a class="admin-link" href="/admin_login">Admin Login</a>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

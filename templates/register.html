@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Account</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        body{
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:
+            linear-gradient(rgba(20,20,40,0.60), rgba(20,20,40,0.60)),
+            url("{{ url_for('static', filename='login.jpg') }}");
+            background-size:cover;
+            background-position:center;
+        }
+
+        .register-card{
+            width:460px;
+            background:rgba(255,255,255,0.10);
+            backdrop-filter:blur(18px);
+            border-radius:30px;
+            padding:45px;
+            box-shadow:0 20px 45px rgba(0,0,0,0.35);
+            border:1px solid rgba(255,255,255,0.15);
+            color:white;
+        }
+
+        .logo{
+            text-align:center;
+            font-size:38px;
+            margin-bottom:10px;
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:8px;
+            font-size:34px;
+        }
+
+        .subtitle{
+            text-align:center;
+            color:#e2e2e2;
+            margin-bottom:28px;
+            font-size:15px;
+        }
+
+        .flash{
+            background:rgba(255,255,255,0.18);
+            padding:14px;
+            border-radius:14px;
+            text-align:center;
+            margin-bottom:18px;
+            font-weight:600;
+        }
+
+        label{
+            display:block;
+            margin-bottom:8px;
+            margin-top:16px;
+            font-size:15px;
+            font-weight:600;
+        }
+
+        input{
+            width:100%;
+            padding:15px 16px;
+            border:none;
+            border-radius:14px;
+            outline:none;
+            background:rgba(255,255,255,0.92);
+            color:#333;
+            font-size:15px;
+        }
+
+        input:focus{
+            box-shadow:0 0 0 3px rgba(122,92,255,0.30);
+        }
+
+        button{
+            width:100%;
+            margin-top:28px;
+            padding:15px;
+            border:none;
+            border-radius:16px;
+            background:linear-gradient(135deg,#7a5cff,#4ab8ff);
+            color:white;
+            font-size:17px;
+            font-weight:600;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        button:hover{
+            transform:translateY(-2px);
+            box-shadow:0 12px 24px rgba(122,92,255,0.35);
+        }
+
+        .bottom-link{
+            text-align:center;
+            margin-top:22px;
+            color:#ddd;
+            font-size:15px;
+        }
+
+        .bottom-link a{
+            color:#ffffff;
+            font-weight:600;
+            text-decoration:none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="register-card">
+
+    <div class="logo">📝</div>
+    <h1>Create Account</h1>
+    <div class="subtitle">Join Smart Campus and start booking resources.</div>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <div class="flash">{{ msg }}</div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+
+        <label>Email Address</label>
+        <input type="email" name="email" placeholder="Enter your email" required>
+
+        <label>Create Password</label>
+        <input type="password" name="password" placeholder="Create password" required>
+
+        <button type="submit">Register</button>
+
+    </form>
+
+    <div class="bottom-link">
+        Already have an account?
+        <a href="/">Login</a>
+    </div>
+
+</div>
+
+</body>
+</html>

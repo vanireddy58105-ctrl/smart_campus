@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Campus</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        body{
+            background:#f4f6fb;
+        }
+
+        .navbar{
+            width:100%;
+            padding:18px 40px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            background:rgba(20,20,40,0.88);
+            backdrop-filter:blur(12px);
+            position:sticky;
+            top:0;
+            z-index:1000;
+            box-shadow:0 8px 20px rgba(0,0,0,0.18);
+        }
+
+        .logo{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            color:white;
+            font-size:28px;
+            font-weight:700;
+        }
+
+        .logo-icon{
+            width:48px;
+            height:48px;
+            border-radius:14px;
+            background:linear-gradient(135deg,#7a5cff,#4ab8ff);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            color:white;
+            font-size:22px;
+        }
+
+        .nav-links{
+            display:flex;
+            gap:16px;
+        }
+
+        .nav-links a{
+            color:#f1f1f1;
+            text-decoration:none;
+            padding:12px 18px;
+            border-radius:14px;
+            transition:0.3s;
+            font-size:15px;
+            font-weight:500;
+        }
+
+        .nav-links a:hover{
+            background:linear-gradient(135deg,#7a5cff,#4ab8ff);
+        }
+
+        .container{
+            padding:35px 50px;
+        }
+
+        @media(max-width:850px){
+            .navbar{
+                flex-direction:column;
+                gap:15px;
+                padding:18px 20px;
+            }
+
+            .nav-links{
+                flex-wrap:wrap;
+                justify-content:center;
+            }
+
+            .container{
+                padding:25px 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+
+        <div class="logo">
+            <div class="logo-icon">🎓</div>
+            <span>SmartCampus</span>
+        </div>
+
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/book">Book Resource</a>
+            <a href="/view_bookings">My Bookings</a>
+            <a href="/logout">Logout</a>
+        </div>
+
+    </div>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+<!-- SMART CAMPUS AI ASSISTANT -->
+<div class="ai-chat-launcher" onclick="toggleAssistant()">
+    <div class="ai-chat-pulse"></div>
+    <span>AI</span>
+</div>
+
+<div class="ai-chat-panel" id="assistantPanel">
+
+    <div class="ai-chat-header">
+        <div class="header-left">
+            <div class="bot-avatar">🎓</div>
+            <div>
+                <h3>Smart Campus Assistant</h3>
+                <p>Online • Ready to help</p>
+            </div>
+        </div>
+        <button class="close-btn" onclick="toggleAssistant()">✕</button>
+    </div>
+
+    <div class="quick-actions">
+        <button onclick="quickReply('How to book a resource?')">Book Resource</button>
+        <button onclick="quickReply('How do I login?')">Login Help</button>
+        <button onclick="quickReply('What can admin do?')">Admin Features</button>
+    </div>
+
+    <div class="ai-chat-messages" id="assistantMessages">
+        <div class="assistant-message">
+            Hello! I’m your Smart Campus assistant. I can help you with bookings, login issues, admin controls, and resource management.
+        </div>
+    </div>
+
+    <div class="typing-indicator" id="typingIndicator">
+        <span></span><span></span><span></span>
+    </div>
+
+    <div class="ai-chat-input">
+        <input type="text" id="assistantInput" placeholder="Type your question..." onkeypress="if(event.key==='Enter') sendAssistantMessage()">
+        <button onclick="sendAssistantMessage()">➤</button>
+    </div>
+</div>
+
+<style>
+.ai-chat-launcher{
+    position:fixed;
+    right:28px;
+    bottom:28px;
+    width:68px;
+    height:68px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#7a5cff,#4ab8ff);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:18px;
+    font-weight:700;
+    cursor:pointer;
+    z-index:9999;
+    box-shadow:0 18px 40px rgba(0,0,0,0.28);
+    overflow:hidden;
+}
+
+.ai-chat-launcher span{
+    position:relative;
+    z-index:2;
+}
+
+.ai-chat-pulse{
+    position:absolute;
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    background:rgba(255,255,255,0.18);
+    animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+    0%{transform:scale(1);opacity:0.8;}
+    100%{transform:scale(1.6);opacity:0;}
+}
+
+.ai-chat-panel{
+    position:fixed;
+    right:28px;
+    bottom:110px;
+    width:380px;
+    height:600px;
+    display:none;
+    flex-direction:column;
+    border-radius:28px;
+    overflow:hidden;
+    background:rgba(22,24,40,0.94);
+    backdrop-filter:blur(22px);
+    box-shadow:0 25px 60px rgba(0,0,0,0.4);
+    z-index:9999;
+    border:1px solid rgba(255,255,255,0.08);
+}
+
+.ai-chat-header{
+    padding:18px 20px;
+    background:linear-gradient(135deg,#7a5cff,#4ab8ff);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.header-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:white;
+}
+
+.bot-avatar{
+    width:48px;
+    height:48px;
+    border-radius:16px;
+    background:rgba(255,255,255,0.18);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+}
+
+.header-left h3{
+    margin:0;
+    font-size:17px;
+}
+
+.header-left p{
+    margin:2px 0 0;
+    font-size:12px;
+    opacity:0.9;
+}
+
+.close-btn{
+    background:none;
+    border:none;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+}
+
+.quick-actions{
+    display:flex;
+    gap:8px;
+    padding:14px;
+    background:rgba(255,255,255,0.03);
+}
+
+.quick-actions button{
+    flex:1;
+    padding:10px;
+    border:none;
+    border-radius:12px;
+    background:rgba(255,255,255,0.08);
+    color:#e8e8ff;
+    font-size:12px;
+    cursor:pointer;
+}
+
+.quick-actions button:hover{
+    background:rgba(122,92,255,0.25);
+}
+
+.ai-chat-messages{
+    flex:1;
+    overflow-y:auto;
+    padding:18px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.assistant-message,
+.user-message{
+    max-width:82%;
+    padding:14px 16px;
+    border-radius:18px;
+    font-size:14px;
+    line-height:1.5;
+}
+
+.assistant-message{
+    align-self:flex-start;
+    background:rgba(255,255,255,0.08);
+    color:#f3f3f8;
+    border-bottom-left-radius:6px;
+}
+
+.user-message{
+    align-self:flex-end;
+    background:linear-gradient(135deg,#7a5cff,#4ab8ff);
+    color:white;
+    border-bottom-right-radius:6px;
+}
+
+.typing-indicator{
+    display:none;
+    padding:0 18px 10px;
+}
+
+.typing-indicator span{
+    display:inline-block;
+    width:8px;
+    height:8px;
+    margin-right:4px;
+    border-radius:50%;
+    background:#b9c0ff;
+    animation:blink 1.4s infinite;
+}
+
+.typing-indicator span:nth-child(2){animation-delay:0.2s;}
+.typing-indicator span:nth-child(3){animation-delay:0.4s;}
+
+@keyframes blink{
+    0%,80%,100%{opacity:0.2;}
+    40%{opacity:1;}
+}
+
+.ai-chat-input{
+    display:flex;
+    gap:10px;
+    padding:16px;
+    background:rgba(255,255,255,0.04);
+}
+
+.ai-chat-input input{
+    flex:1;
+    border:none;
+    outline:none;
+    border-radius:16px;
+    padding:14px 16px;
+    background:rgba(255,255,255,0.08);
+    color:white;
+    font-size:14px;
+}
+
+.ai-chat-input input::placeholder{
+    color:#bbb;
+}
+
+.ai-chat-input button{
+    width:52px;
+    border:none;
+    border-radius:16px;
+    background:linear-gradient(135deg,#7a5cff,#4ab8ff);
+    color:white;
+    cursor:pointer;
+    font-size:18px;
+}
+</style>
+
+<script>
+function toggleAssistant(){
+    const panel = document.getElementById('assistantPanel');
+    panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
+}
+
+function quickReply(text){
+    document.getElementById('assistantInput').value = text;
+    sendAssistantMessage();
+}
+
+function sendAssistantMessage(){
+    const input = document.getElementById('assistantInput');
+    const text = input.value.trim();
+    if(!text) return;
+
+    const box = document.getElementById('assistantMessages');
+    box.innerHTML += `<div class="user-message">${text}</div>`;
+    input.value = '';
+
+    const typing = document.getElementById('typingIndicator');
+    typing.style.display = 'block';
+    box.scrollTop = box.scrollHeight;
+
+    let reply = 'Please try asking about booking, login, resources, dashboard, or admin access.';
+    const msg = text.toLowerCase();
+
+    if(msg.includes('book')){
+        reply = 'Open the Book page, choose a resource, select date and time, then confirm your booking.';
+    }
+    else if(msg.includes('login')){
+        reply = 'Use your registered email and password. Admin users can login from the Admin Login option.';
+    }
+    else if(msg.includes('admin')){
+        reply = 'Admins can manage bookings, add or delete resources, monitor statistics, and view all users.';
+    }
+    else if(msg.includes('resource')){
+        reply = 'Go to Manage Resources in the Admin Dashboard to add classrooms, labs, auditoriums, and more.';
+    }
+    else if(msg.includes('dashboard')){
+        reply = 'The dashboard displays total bookings, active bookings, and cancelled bookings in real time.';
+    }
+
+    setTimeout(() => {
+        typing.style.display = 'none';
+        box.innerHTML += `<div class="assistant-message">${reply}</div>`;
+        box.scrollTop = box.scrollHeight;
+    }, 900);
+}
+</script>
+
+</body>
+</html>
+

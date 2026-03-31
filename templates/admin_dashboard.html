@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+body{
+    background:
+    linear-gradient(rgba(20,20,40,0.78), rgba(20,20,40,0.78)),
+    url("{{ url_for('static', filename='login.jpg') }}");
+    background-size:cover;
+    background-position:center;
+    min-height:100vh;
+}
+
+.header{
+    background:rgba(255,255,255,0.10);
+    backdrop-filter:blur(18px);
+    border-radius:28px;
+    padding:32px;
+    color:white;
+    margin-bottom:30px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.28);
+}
+
+.header h1{
+    font-size:36px;
+    margin-bottom:10px;
+}
+
+.header p{
+    color:#e5e5e5;
+    font-size:15px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+    margin-bottom:30px;
+}
+
+.card{
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(18px);
+    border-radius:24px;
+    padding:28px;
+    color:white;
+    box-shadow:0 15px 30px rgba(0,0,0,0.25);
+}
+
+.card h3{
+    color:#d8d8d8;
+    margin-bottom:10px;
+    font-size:16px;
+}
+
+.card .number{
+    font-size:42px;
+    font-weight:700;
+}
+
+.table-box{
+    background:rgba(255,255,255,0.10);
+    backdrop-filter:blur(18px);
+    border-radius:28px;
+    overflow:hidden;
+    box-shadow:0 20px 40px rgba(0,0,0,0.30);
+}
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    color:white;
+}
+
+thead{
+    background:rgba(255,255,255,0.12);
+}
+
+th,td{
+    padding:18px;
+    text-align:left;
+}
+
+tbody tr{
+    border-top:1px solid rgba(255,255,255,0.08);
+}
+
+tbody tr:hover{
+    background:rgba(255,255,255,0.08);
+}
+
+.status-booked{
+    background:rgba(46,204,113,0.18);
+    color:#7dffb0;
+    padding:8px 14px;
+    border-radius:999px;
+    font-weight:600;
+    display:inline-block;
+}
+
+.status-cancelled{
+    background:rgba(231,76,60,0.18);
+    color:#ff9b93;
+    padding:8px 14px;
+    border-radius:999px;
+    font-weight:600;
+    display:inline-block;
+}
+
+.logout-btn{
+    display:inline-block;
+    margin-top:25px;
+    padding:14px 22px;
+    border-radius:16px;
+    background:linear-gradient(135deg,#ff5e62,#ff9966);
+    color:white;
+    text-decoration:none;
+    font-weight:600;
+}
+
+@media(max-width:900px){
+    .stats{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+
+<div class="header">
+    <h1>🛡️ Admin Dashboard</h1>
+    <p>Monitor all bookings, track active reservations and manage Smart Campus resources.</p>
+
+    <a href="/admin_logout" class="logout-btn">Logout</a>
+</div>
+
+<div class="stats">
+
+    <div class="card">
+        <h3>Total Bookings</h3>
+        <div class="number">{{ total }}</div>
+    </div>
+
+    <div class="card">
+        <h3>Active Bookings</h3>
+        <div class="number">{{ active }}</div>
+    </div>
+
+    <div class="card">
+        <h3>Cancelled Bookings</h3>
+        <div class="number">{{ cancelled }}</div>
+    </div>
+
+<div style="margin-bottom:25px; text-align:right;">
+    <a href="/admin_resources" style="
+        padding:14px 22px;
+        border-radius:16px;
+        background:linear-gradient(135deg,#7a5cff,#4ab8ff);
+        color:white;
+        text-decoration:none;
+        font-weight:600;
+        display:inline-block;
+    ">
+        Manage Resources
+    </a>
+</div>
+</div>
+
+<div class="table-box">
+    <div class="table-wrapper">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Resource</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Members</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking[0] }}</td>
+                    <td>{{ booking[1] }}</td>
+                    <td>{{ booking[2] }}</td>
+                    <td>{{ booking[3] }}</td>
+                    <td>{{ booking[4] }}</td>
+                    <td>{{ booking[5] }}</td>
+                    <td>
+                        {% if booking[6] == 'Booked' %}
+                            <span class="status-booked">Booked</span>
+                        {% else %}
+                            <span class="status-cancelled">Cancelled</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}
+

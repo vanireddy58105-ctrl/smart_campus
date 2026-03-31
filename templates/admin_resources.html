@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+body{
+    background:
+    linear-gradient(rgba(20,20,40,0.78), rgba(20,20,40,0.78)),
+    url("{{ url_for('static', filename='login.jpg') }}");
+    background-size:cover;
+    background-position:center;
+    min-height:100vh;
+}
+
+.header{
+    background:rgba(255,255,255,0.10);
+    backdrop-filter:blur(18px);
+    border-radius:28px;
+    padding:30px;
+    color:white;
+    margin-bottom:30px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.30);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.header h1{
+    font-size:34px;
+}
+
+.add-btn{
+    padding:14px 22px;
+    border-radius:16px;
+    background:linear-gradient(135deg,#7a5cff,#4ab8ff);
+    color:white;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.flash{
+    background:rgba(255,255,255,0.15);
+    color:white;
+    padding:14px;
+    border-radius:14px;
+    margin-bottom:20px;
+    text-align:center;
+    font-weight:600;
+}
+
+.table-box{
+    background:rgba(255,255,255,0.10);
+    backdrop-filter:blur(18px);
+    border-radius:28px;
+    overflow:hidden;
+    box-shadow:0 20px 40px rgba(0,0,0,0.30);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    color:white;
+}
+
+th,td{
+    padding:18px;
+    text-align:left;
+}
+
+thead{
+    background:rgba(255,255,255,0.12);
+}
+
+tbody tr{
+    border-top:1px solid rgba(255,255,255,0.08);
+}
+
+tbody tr:hover{
+    background:rgba(255,255,255,0.08);
+}
+
+.delete-btn{
+    padding:10px 16px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#ff5e62,#ff9966);
+    color:white;
+    text-decoration:none;
+    font-weight:600;
+}
+</style>
+
+<div class="header">
+    <h1>🏫 Manage Resources</h1>
+    <a href="/add_resource" class="add-btn">+ Add Resource</a>
+</div>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    {% for msg in messages %}
+        <div class="flash">{{ msg }}</div>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+
+<div class="table-box">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Capacity</th>
+                <th>Location</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for resource in resources %}
+            <tr>
+                <td>{{ resource[0] }}</td>
+                <td>{{ resource[1] }}</td>
+                <td>{{ resource[2] }}</td>
+                <td>{{ resource[3] }}</td>
+                <td>{{ resource[4] }}</td>
+                <td>
+                    <a href="/delete_resource/{{ resource[0] }}" class="delete-btn">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+

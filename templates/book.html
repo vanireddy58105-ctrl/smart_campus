@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+body{
+    background:
+    linear-gradient(rgba(20,20,40,0.75), rgba(20,20,40,0.75)),
+    url("{{ url_for('static', filename='login.jpg') }}");
+    background-size:cover;
+    background-position:center;
+    min-height:100vh;
+}
+
+.booking-wrapper{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px 0;
+}
+
+.booking-card{
+    width:100%;
+    max-width:560px;
+    background:rgba(255,255,255,0.10);
+    backdrop-filter:blur(18px);
+    border-radius:28px;
+    padding:40px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.35);
+    border:1px solid rgba(255,255,255,0.15);
+    color:white;
+}
+
+.booking-card h1{
+    text-align:center;
+    font-size:34px;
+    margin-bottom:10px;
+}
+
+.booking-card p{
+    text-align:center;
+    color:#e5e5e5;
+    margin-bottom:28px;
+    font-size:15px;
+}
+
+.flash{
+    background:rgba(255,255,255,0.18);
+    color:white;
+    padding:14px;
+    border-radius:14px;
+    text-align:center;
+    margin-bottom:20px;
+    font-weight:600;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    margin-top:16px;
+    font-size:15px;
+    font-weight:600;
+}
+
+input,
+select{
+    width:100%;
+    padding:15px 16px;
+    border:none;
+    border-radius:14px;
+    outline:none;
+    background:rgba(255,255,255,0.92);
+    font-size:15px;
+    color:#333;
+}
+
+input:focus,
+select:focus{
+    box-shadow:0 0 0 3px rgba(122,92,255,0.30);
+}
+
+button{
+    width:100%;
+    margin-top:28px;
+    padding:15px;
+    border:none;
+    border-radius:16px;
+    background:linear-gradient(135deg,#7a5cff,#4ab8ff);
+    color:white;
+    font-size:17px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 24px rgba(122,92,255,0.35);
+}
+
+.back-link{
+    display:block;
+    text-align:center;
+    margin-top:18px;
+    color:#ddd;
+    text-decoration:none;
+    font-size:15px;
+}
+
+.back-link:hover{
+    color:white;
+}
+</style>
+
+<div class="booking-wrapper">
+
+    <div class="booking-card">
+
+        <h1>📅 Book Resource</h1>
+        <p>Select your campus resource and reserve your slot instantly.</p>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="flash">{{ msg }}</div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+
+            <label>Resource Type</label>
+            <select name="resource" required>
+                <option value="">Choose Resource</option>
+                <option value="Library">Library</option>
+                <option value="Classroom">Classroom</option>
+                <option value="Laboratory">Laboratory</option>
+                <option value="Auditorium">Auditorium</option>
+                <option value="Sports">Sports Ground</option>
+            </select>
+
+            <label>Select Date</label>
+            <input type="date" name="date" required>
+
+            <label>Select Time</label>
+            <input type="time" name="time" required>
+
+            <label>Number of Members</label>
+            <input type="number" name="members" min="1" max="200" placeholder="Enter members count" required>
+
+            <button type="submit">Confirm Booking</button>
+
+        </form>
+
+        <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+
+    </div>
+
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        body{
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:
+            linear-gradient(rgba(18,18,35,0.65), rgba(18,18,35,0.65)),
+            url("{{ url_for('static', filename='login.jpg') }}");
+            background-size:cover;
+            background-position:center;
+        }
+
+        .admin-card{
+            width:480px;
+            background:rgba(255,255,255,0.10);
+            backdrop-filter:blur(18px);
+            border-radius:30px;
+            padding:45px;
+            box-shadow:0 20px 45px rgba(0,0,0,0.35);
+            border:1px solid rgba(255,255,255,0.15);
+            color:white;
+        }
+
+        .icon{
+            text-align:center;
+            font-size:42px;
+            margin-bottom:10px;
+        }
+
+        h1{
+            text-align:center;
+            font-size:34px;
+            margin-bottom:8px;
+        }
+
+        .subtitle{
+            text-align:center;
+            color:#e5e5e5;
+            margin-bottom:28px;
+            font-size:15px;
+        }
+
+        .flash{
+            background:rgba(255,255,255,0.15);
+            padding:14px;
+            border-radius:14px;
+            text-align:center;
+            margin-bottom:18px;
+            font-weight:600;
+        }
+
+        label{
+            display:block;
+            margin-top:16px;
+            margin-bottom:8px;
+            font-weight:600;
+        }
+
+        input{
+            width:100%;
+            padding:15px 16px;
+            border:none;
+            border-radius:14px;
+            background:rgba(255,255,255,0.92);
+            font-size:15px;
+            outline:none;
+        }
+
+        input:focus{
+            box-shadow:0 0 0 3px rgba(122,92,255,0.30);
+        }
+
+        button{
+            width:100%;
+            margin-top:28px;
+            padding:15px;
+            border:none;
+            border-radius:16px;
+            background:linear-gradient(135deg,#7a5cff,#4ab8ff);
+            color:white;
+            font-size:17px;
+            font-weight:600;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        button:hover{
+            transform:translateY(-2px);
+            box-shadow:0 12px 24px rgba(122,92,255,0.35);
+        }
+
+        .back-link{
+            display:block;
+            margin-top:22px;
+            text-align:center;
+            color:#ddd;
+            text-decoration:none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="admin-card">
+
+    <div class="icon">🛡️</div>
+    <h1>Admin Login</h1>
+    <div class="subtitle">Access the Smart Campus administration panel.</div>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <div class="flash">{{ msg }}</div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+
+        <label>Admin Username</label>
+        <input type="text" name="username" placeholder="Enter admin username" required>
+
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter password" required>
+
+        <button type="submit">Login as Admin</button>
+
+    </form>
+
+    <a href="/" class="back-link">← Back to User Login</a>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+body{
+    background:
+    linear-gradient(rgba(20,20,40,0.78), rgba(20,20,40,0.78)),
+    url("{{ url_for('static', filename='login.jpg') }}");
+    background-size:cover;
+    background-position:center;
+    min-height:100vh;
+}
+
+.page-header{
+    background:rgba(255,255,255,0.10);
+    backdrop-filter:blur(18px);
+    border-radius:28px;
+    padding:30px;
+    margin-bottom:30px;
+    color:white;
+    box-shadow:0 18px 35px rgba(0,0,0,0.28);
+}
+
+.page-header h1{
+    font-size:34px;
+    margin-bottom:8px;
+}
+
+.page-header p{
+    color:#e5e5e5;
+}
+
+.flash{
+    background:rgba(255,255,255,0.15);
+    color:white;
+    padding:14px;
+    border-radius:14px;
+    margin-bottom:20px;
+    text-align:center;
+    font-weight:600;
+}
+
+.table-card{
+    background:rgba(255,255,255,0.10);
+    backdrop-filter:blur(18px);
+    border-radius:28px;
+    overflow:hidden;
+    box-shadow:0 20px 40px rgba(0,0,0,0.30);
+}
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    color:white;
+}
+
+thead{
+    background:rgba(255,255,255,0.12);
+}
+
+th,td{
+    padding:18px 20px;
+    text-align:left;
+}
+
+th{
+    font-size:15px;
+    letter-spacing:0.5px;
+}
+
+tbody tr{
+    border-top:1px solid rgba(255,255,255,0.08);
+}
+
+tbody tr:hover{
+    background:rgba(255,255,255,0.08);
+}
+
+.status-booked{
+    display:inline-block;
+    padding:8px 14px;
+    border-radius:999px;
+    background:rgba(46,204,113,0.18);
+    color:#7dffb0;
+    font-size:14px;
+    font-weight:600;
+}
+
+.status-cancelled{
+    display:inline-block;
+    padding:8px 14px;
+    border-radius:999px;
+    background:rgba(231,76,60,0.18);
+    color:#ff9b93;
+    font-size:14px;
+    font-weight:600;
+}
+
+.cancel-btn{
+    display:inline-block;
+    padding:10px 16px;
+    border-radius:12px;
+    text-decoration:none;
+    background:linear-gradient(135deg,#ff5e62,#ff9966);
+    color:white;
+    font-weight:600;
+    font-size:14px;
+    transition:0.3s;
+}
+
+.cancel-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 20px rgba(255,94,98,0.35);
+}
+
+.cancelled-text{
+    color:#ddd;
+    font-weight:600;
+}
+
+.empty{
+    text-align:center;
+    color:white;
+    padding:40px;
+    font-size:18px;
+}
+</style>
+
+<div class="page-header">
+    <h1>📋 My Bookings</h1>
+    <p>Track, manage and cancel your booked campus resources.</p>
+</div>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    {% for msg in messages %}
+        <div class="flash">{{ msg }}</div>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+
+<div class="table-card">
+    <div class="table-wrapper">
+
+        {% if bookings %}
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Resource</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Members</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking[0] }}</td>
+                    <td>{{ booking[2] }}</td>
+                    <td>{{ booking[3] }}</td>
+                    <td>{{ booking[4] }}</td>
+                    <td>{{ booking[5] }}</td>
+
+                    <td>
+                        {% if booking[6] == 'Booked' %}
+                            <span class="status-booked">Booked</span>
+                        {% else %}
+                            <span class="status-cancelled">Cancelled</span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if booking[6] == 'Booked' %}
+                            <a class="cancel-btn" href="/cancel_booking/{{ booking[0] }}">Cancel</a>
+                        {% else %}
+                            <span class="cancelled-text">Completed</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% else %}
+            <div class="empty">No bookings found.</div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}
+
