@@ -36,7 +36,7 @@ cursor.execute("""
 INSERT OR IGNORE INTO admin(id,username,password)
 VALUES(1,'admin','admin123')
 """)
-# Paste These Routes in `app.py`
+# Paste These Routes in `app.py`=
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS resources(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
